@@ -6,11 +6,11 @@ public class Tag
     public int Id { get; set; }
     [StringLength(50), Required]
     public string Name { get; set; }
-    public ICollection<Task> Tasks { get; set; }
+    public ICollection<Task>? Tasks { get; set; }
 
-    public Tag(int Id, string Name, ICollection<Task> Tasks){
+    /* public Tag(int Id, string Name, ICollection<Task> Tasks){
         this.Id = Id;
         this.Name = Name;
         this.Tasks = Tasks;
-    }
+    } */
 }
