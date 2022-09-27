@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration.UserSecrets;
+using System.ComponentModel.DataAnnotations.Schema;
 
 
 namespace Assignment.Infrastructure;
@@ -27,7 +28,14 @@ namespace Assignment.Infrastructure;
 
             modelBuilder.Entity<WorkItem>(entity => {
                 entity.Property(e => e.Title);
+                // State is stored as string
+                entity.Property(e => e.State)
+                .HasConversion(
+                    v => v.ToString(),
+                    v => (State)Enum.Parse(typeof(State), v)
+                );
             });
+            
             OnModelCreatingPartial(modelBuilder);
         }
 
