@@ -7,4 +7,10 @@ public class Tag
     [StringLength(50), Required]
     public string Name { get; set; }
     public ICollection<Task> Tasks { get; set; }
+
+    public Tag(int Id, string Name, ICollection<Task> Tasks){
+        this.Id = Id;
+        this.Name = Name;
+        this.Tasks = Tasks;
+    }
 }
