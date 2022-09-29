@@ -4,15 +4,18 @@ using Assignment.Core;
 
 public class WorkItem
 {
+    [Key]
     public int Id { get; set; }
-    [StringLength(100), Required]
+    [MaxLength(100), Required]
     public string Title { get; set; }
     public User AssignedTo { get; set; }
-    [StringLength(int.MaxValue)]
-    public string Description { get; set; }
+
+    [MaxLength(int.MaxValue)]
+    public string? Description { get; set; }
+
     [Required]
     public Core.State State { get; set; }
-    public virtual IReadOnlyCollection<string> Tags { get; set; }
+    public virtual IReadOnlyCollection<string>? Tags { get; }
 
 
     /*

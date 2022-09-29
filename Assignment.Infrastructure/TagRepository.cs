@@ -10,7 +10,7 @@ public class TagRepository : ITagRepository
         _context = context;
     }
 
-    (Response Response, int TagId) ITagRepository.Create(TagCreateDTO tag)
+    public (Response Response, int TagId) Create(TagCreateDTO tag)
     {
         var entity = new Tag{
             Name = tag.Name
@@ -30,7 +30,7 @@ public class TagRepository : ITagRepository
         return (Response.Created, entity.Id);
     }
 
-    Response ITagRepository.Delete(int tagId, bool force)
+    public Response Delete(int tagId, bool force)
     {
         var entity = new Tag{Id = tagId};
         var exists = from t in _context.Tags
