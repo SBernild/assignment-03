@@ -17,7 +17,7 @@ public class WorkItemRepository : IWorkItemRepository
 
         var exists = from w in _context.WorkItems
         where w.Title == w.Title
-        select new WorkItemDTO(w.Id, w.Title, w.AssignedTo.Name, w.Tags, w.State);
+        select new WorkItemDetailsDTO(w.Id, w.Title, w.Description, DateTime.Now, w.AssignedTo.Name, w.Tags, State.New, DateTime.Now);
 
         if (exists.Any()){
             return (Response.Conflict, -1);
@@ -31,17 +31,26 @@ public class WorkItemRepository : IWorkItemRepository
 
     public Response Delete(int workItemId)
     {
-        var entity = new WorkItem{Id = workItemId};
-        var exists = from w in _context.WorkItems
-        where w.Id == workItemId
-        select new WorkItemDTO(w.Id, w.Title, w.AssignedTo.Name, w.Tags, w.State);
-        if (exists.Any()){
+        var entity = _context.WorkItems.Find(workItemId);
 
-            _context.WorkItems.Remove(entity);
-            _context.SaveChanges();
-            return (Response.Deleted);
+        if (entity == null) {
+            return Response.NotFound;
         }
-        else return Response.NotFound;
+
+        switch (entity.State)
+        {
+            case State.New:
+                _context.WorkItems.Remove(entity);
+                break;
+            case State.Active:
+                entity.State = State.Removed;
+                break;
+            default:
+                return Response.Conflict;
+        }
+
+        _context.SaveChanges();
+        return Response.Deleted;
     }
 
     public WorkItemDetailsDTO? Find(int workItemId)
