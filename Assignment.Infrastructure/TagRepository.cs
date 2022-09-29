@@ -1,5 +1,4 @@
 namespace Assignment.Infrastructure;
-
 using System.Collections.Generic;
 using Assignment.Core;
 
@@ -11,7 +10,8 @@ public class TagRepository : ITagRepository
         _context = context;
     }
 
-    (Response response, int TagId) Create(TagCreateDTO tag){
+    (Response Response, int TagId) ITagRepository.Create(TagCreateDTO tag)
+    {
         var entity = new Tag{
             Name = tag.Name
         };
@@ -44,18 +44,38 @@ public class TagRepository : ITagRepository
         else return Response.NotFound;
     }
 
-    TagDTO ITagRepository.Find(int tagId)
+    TagDTO? ITagRepository.Find(int tagId)
     {
-        throw new NotImplementedException();
+        var tag = _context.Tags.Find(tagId);
+
+        if(tag == null){
+            return null;
+        }
+
+        return new TagDTO(tag.Id, tag.Name);
     }
 
     IReadOnlyCollection<TagDTO> ITagRepository.Read()
     {
-        throw new NotImplementedException();
+        var tags = from t in _context.Tags
+            select new TagDTO(t.Id, t.Name);
+
+        return tags.ToList();
     }
+
 
     Response ITagRepository.Update(TagUpdateDTO tag)
     {
-        throw new NotImplementedException();
+        var entity = _context.Tags.Find(tag.Id);
+
+        if(entity == null){
+            return Response.NotFound;
+        }
+
+        entity.Name = tag.Name;
+
+        _context.SaveChanges();
+
+        return Response.Updated;
     }
 }

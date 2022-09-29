@@ -20,7 +20,8 @@ namespace Assignment.Infrastructure;
         }
 
         public virtual DbSet<Tag> Tags {get; set;} =null!;
-        public virtual DbSet<WorkItem> Tasks {get; set;} =null!;
+        public virtual DbSet<WorkItem> WorkItems {get; set;} =null!;
+        public virtual DbSet<User> Users {get; set;} =null!;
         protected override void OnModelCreating(ModelBuilder modelBuilder){
             modelBuilder.Entity<Tag>(entity => {
                 entity.Property(e => e.Name).HasMaxLength(50);
@@ -34,6 +35,10 @@ namespace Assignment.Infrastructure;
                     v => v.ToString(),
                     v => (State)Enum.Parse(typeof(State), v)
                 );
+            });
+
+            modelBuilder.Entity<User>(entity => {
+                entity.Property(e => e.Name).HasMaxLength(100);
             });
             
             OnModelCreatingPartial(modelBuilder);
