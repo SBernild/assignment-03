@@ -45,7 +45,7 @@ public class TagRepository : ITagRepository
         else return Response.NotFound;
     }
 
-    TagDTO? ITagRepository.Find(int tagId)
+    public TagDTO? Find(int tagId)
     {
         var tag = _context.Tags.Find(tagId);
 
@@ -56,7 +56,7 @@ public class TagRepository : ITagRepository
         return new TagDTO(tag.Id, tag.Name);
     }
 
-    IReadOnlyCollection<TagDTO> ITagRepository.Read()
+    public IReadOnlyCollection<TagDTO> Read()
     {
         var tags = from t in _context.Tags
             select new TagDTO(t.Id, t.Name);
@@ -65,7 +65,7 @@ public class TagRepository : ITagRepository
     }
 
 
-    Response ITagRepository.Update(TagUpdateDTO tag)
+    public Response Update(TagUpdateDTO tag)
     {
         var entity = _context.Tags.Find(tag.Id);
 
