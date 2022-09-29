@@ -6,6 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration.UserSecrets;
 using System.ComponentModel.DataAnnotations.Schema;
+using Assignment.Core;
 
 
 namespace Assignment.Infrastructure;
@@ -30,11 +31,12 @@ namespace Assignment.Infrastructure;
             modelBuilder.Entity<WorkItem>(entity => {
                 entity.Property(e => e.Title);
                 // State is stored as string
-                entity.Property(e => e.State)
-                .HasConversion(
+                entity.Property(e => e.State);
+                entity.Property(e => e.Id);
+                /* .HasConversion(
                     v => v.ToString(),
                     v => (State)Enum.Parse(typeof(State), v)
-                );
+                ); */
             });
 
             modelBuilder.Entity<User>(entity => {
