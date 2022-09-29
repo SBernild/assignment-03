@@ -6,8 +6,9 @@ using Microsoft.Data.Sqlite;
 
 public class WorkItemRepositoryTests : IDisposable
 {
+    /*
     private KabanContext _context;
-    public TagRepository _repo;
+    public WorkItemRepository _repo;
 
     public WorkItemRepositoryTests(){
         var connection = new SqliteConnection("Filename=:memory:");
@@ -16,27 +17,27 @@ public class WorkItemRepositoryTests : IDisposable
         builder.UseSqlite(connection);
         var context = new KabanContext(builder.Options);
         context.Database.EnsureCreated();
-        context.Tags.Add(new Tag{Id = 1, Name = "frederik"});
         context.SaveChanges();
 
         _context = context;
-        _repo = new TagRepository(_context);
+        _repo = new WorkItemRepository(_context);
     }
 
     [Fact]
-    public void find_none_existing_tag()
+    public void CreateWorkItemTest()
     {
         // Given
-        var (response, created) = _repo.Create(new TagCreateDTO("yo"));
+        var actual = _repo.Create(new WorkItemCreateDTO("To do", 2, "Thing to do today", new List<string>()));
         // When
-        response.Should().Be(Response.Created);
-        created.Should().Be(2);
+        var expectedResponse = Response.Created;
         // Then
+        Assert.Equal(expectedResponse, actual.Response);
     }
+    
 
     void IDisposable.Dispose()
     {
         _context.Dispose();
     }
-
+    */
 }

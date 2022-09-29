@@ -27,17 +27,18 @@ namespace Assignment.Infrastructure;
             modelBuilder.Entity<Tag>(entity => {
                 entity.Property(e => e.Name).HasMaxLength(50);
             });
-
+            
+            
             modelBuilder.Entity<WorkItem>(entity => {
-                entity.Property(e => e.Title);
                 // State is stored as string
-                entity.Property(e => e.State);
-                entity.Property(e => e.Id);
-                /* .HasConversion(
+                entity.Property(e => e.State)
+                 .HasConversion(
                     v => v.ToString(),
                     v => (State)Enum.Parse(typeof(State), v)
-                ); */
+                ); 
             });
+            
+            
 
             modelBuilder.Entity<User>(entity => {
                 entity.Property(e => e.Name).HasMaxLength(100);

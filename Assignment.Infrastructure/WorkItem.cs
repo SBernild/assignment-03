@@ -4,14 +4,14 @@ using Assignment.Core;
 
 public class WorkItem
 {
-    [Key]
     public int Id { get; set; }
     [MaxLength(100), Required]
+    [Key]
     public string Title { get; set; }
     public User AssignedTo { get; set; }
 
     [MaxLength(int.MaxValue)]
-    public string Description { get; set; }
+    public string? Description { get; set; }
 
     [Required]
     public Core.State State { get; set; }

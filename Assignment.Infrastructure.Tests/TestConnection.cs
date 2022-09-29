@@ -19,7 +19,6 @@ public abstract class TestConnection{
             
             var options = optionsBuilder.Options;
             
-
              _context = new KabanContext(options);
             
         }

@@ -4,6 +4,7 @@ using Assignment.Core;
 
 public class WorkItemRepository : IWorkItemRepository
 {
+    
     private readonly KabanContext _context;
 
     public WorkItemRepository(KabanContext context){
@@ -16,7 +17,7 @@ public class WorkItemRepository : IWorkItemRepository
         };
 
         var exists = from w in _context.WorkItems
-        where w.Title == w.Title
+        where w.Title == workItem.Title
         select new WorkItemDetailsDTO(w.Id, w.Title, w.Description, DateTime.Now, w.AssignedTo.Name, w.Tags, State.New, DateTime.Now);
 
         if (exists.Any()){
