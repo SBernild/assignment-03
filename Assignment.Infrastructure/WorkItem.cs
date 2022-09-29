@@ -1,5 +1,6 @@
 namespace Assignment.Infrastructure;
 using System.ComponentModel.DataAnnotations;
+using Assignment.Core;
 
 public class WorkItem
 {
@@ -10,8 +11,8 @@ public class WorkItem
     [StringLength(int.MaxValue)]
     public string? Description { get; set; }
     [Required]
-    public State State { get; set; }
-    public virtual ICollection<Tag> Tags { get; set; }
+    public Core.State State { get; set; }
+    public virtual IReadOnlyCollection<string> Tags { get; set; }
 
 
     /*
@@ -29,7 +30,7 @@ public class WorkItem
     
 
 }
-
+/*
 public enum State {
     New,
     Active,
@@ -37,3 +38,4 @@ public enum State {
     Closed,
     Removed
 }
+*/

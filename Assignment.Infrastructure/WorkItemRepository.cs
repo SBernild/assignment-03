@@ -27,19 +27,17 @@ public class WorkItemRepository : IWorkItemRepository
     public IReadOnlyCollection<WorkItemDTO> Read()
     {
         var workItems = from w in _context.WorkItems
-                select new WorkItemDTO(w.Id, w.Title)
-                {
-                    Id = b.Id,
-                    Title = b.Title,
-                    AuthorName = b.Author.Name
-                };
+                select new WorkItemDTO(w.Id, w.Title, w.AssignedTo.Name, w.Tags, w.State);
 
-    return books;
+        return workItems.ToList();
     }
 
     public IReadOnlyCollection<WorkItemDTO> ReadByState(Core.State state)
     {
-        throw new NotImplementedException();
+        var workItems = from w in _context.WorkItems
+                select new WorkItemDTO(w.Id, w.Title, w.AssignedTo.Name, w.Tags, w.State);
+
+        return workItems.ToList();
     }
 
     public IReadOnlyCollection<WorkItemDTO> ReadByTag(string tag)
