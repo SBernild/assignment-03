@@ -31,7 +31,17 @@ public class WorkItemRepository : IWorkItemRepository
 
     public Response Delete(int workItemId)
     {
-        throw new NotImplementedException();
+        var entity = new WorkItem{Id = workItemId};
+        var exists = from w in _context.WorkItems
+        where w.Id == workItemId
+        select new WorkItemDTO(w.Id, w.Title, w.AssignedTo.Name, w.Tags, w.State);
+        if (exists.Any()){
+
+            _context.WorkItems.Remove(entity);
+            _context.SaveChanges();
+            return (Response.Deleted);
+        }
+        else return Response.NotFound;
     }
 
     public WorkItemDetailsDTO? Find(int workItemId)

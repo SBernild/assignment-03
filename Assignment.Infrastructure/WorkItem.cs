@@ -11,11 +11,11 @@ public class WorkItem
     public User AssignedTo { get; set; }
 
     [MaxLength(int.MaxValue)]
-    public string? Description { get; set; }
+    public string Description { get; set; }
 
     [Required]
     public Core.State State { get; set; }
-    public virtual IReadOnlyCollection<string>? Tags { get; }
+    public virtual IReadOnlyCollection<string> Tags { get; }
 
 
     /*
