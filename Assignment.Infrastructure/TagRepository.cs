@@ -10,7 +10,8 @@ public class TagRepository : ITagRepository
         _context = context;
     }
 
-    (Response response, int TagId) Create(TagCreateDTO tag){
+    (Response Response, int TagId) ITagRepository.Create(TagCreateDTO tag)
+    {
         var entity = new Tag{
             Name = tag.Name
         };
@@ -43,7 +44,7 @@ public class TagRepository : ITagRepository
         else return Response.NotFound;
     }
 
-    TagDTO ITagRepository.Find(int tagId)
+    TagDTO? ITagRepository.Find(int tagId)
     {
         var tag = _context.Tags.Find(tagId);
 
