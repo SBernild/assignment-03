@@ -37,6 +37,7 @@ public class TagRepository : ITagRepository
         where t.Id == tagId
         select new TagDTO(t.Id, t.Name);
         if (exists.Any()){
+
             _context.Tags.Remove(entity);
             _context.SaveChanges();
             return (Response.Deleted);
