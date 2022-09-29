@@ -9,7 +9,7 @@ public class UserRepository : IUserRepository
     public UserRepository(KabanContext context){
         _context = context;
     }
-    (Response Response, int UserId) Create(UserCreateDTO user)
+    (Response Response, int UserId) IUserRepository.Create(UserCreateDTO user)
     {
         var entity = new User{
             Name = user.Name
@@ -28,7 +28,7 @@ public class UserRepository : IUserRepository
 
         return (Response.Created, entity.Id);
     }
-    UserDTO Find(int userId)
+    UserDTO? IUserRepository.Find(int userId)
     {
         var user = _context.Users.Find(userId);
 
@@ -38,14 +38,14 @@ public class UserRepository : IUserRepository
 
         return new UserDTO(user.Id, user.Name, user.Email);
     }
-    IReadOnlyCollection<UserDTO> Read()
+    IReadOnlyCollection<UserDTO> IUserRepository.Read()
     {
         var users = from u in _context.Users
             select new UserDTO(u.Id, u.Name, u.Email);
 
         return users.ToList();
     }
-    Response Update(UserUpdateDTO user)
+    Response IUserRepository.Update(UserUpdateDTO user)
     {
         var entity = _context.Users.Find(user.Id);
 
@@ -59,7 +59,7 @@ public class UserRepository : IUserRepository
 
         return Response.Updated;
     }
-    Response Delete(int userId, bool force = false)
+    Response IUserRepository.Delete(int userId, bool force = false)
     {
         var entity = new User{Id = userId};
         var exists = from u in _context.Users

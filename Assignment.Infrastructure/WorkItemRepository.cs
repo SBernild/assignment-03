@@ -9,42 +9,56 @@ public class WorkItemRepository : IWorkItemRepository
     public WorkItemRepository(KabanContext context){
         _context = context;
     }
-    (Response Response, int WorkItemId) Create(WorkItemCreateDTO workItem)
+    public (Response Response, int WorkItemId) Create(WorkItemCreateDTO workItem)
     {
-        var entity = new WorkItem{
-            Title = workItem.Title
-        };
-
-        var exists = from w in _context.WorkItems
-        where w.Title == workItem.Title
-        select new WorkItemDTO(w.Id, w.Title, w.AssignedTo.Name, w.Tags, w.State);
-
-        if (exists.Any()){
-            return (Response.Conflict, -1);
-        }
-
-        _context.WorkItems.Add(entity);
-        _context.SaveChanges();
-
-        return (Response.Created, entity.Id);
+        throw new NotImplementedException();
     }
-    WorkItemDetailsDTO Find(int workItemId)
+
+    public Response Delete(int workItemId)
     {
-        var workItem = _context.WorkItems.Find(workItemId);
-
-        if(workItem == null){
-            return null;
-        }
-
-        return new WorkItemDetailsDTO(workItem.Id, workItem.Title, workItem.Description, workItem.Created, workItem.AssignedToName, workItem.Tags, workItem.State, workItem.StateUpdated);
-    
+        throw new NotImplementedException();
     }
-    IReadOnlyCollection<WorkItemDTO> Read();
-    IReadOnlyCollection<WorkItemDTO> ReadRemoved();
-    IReadOnlyCollection<WorkItemDTO> ReadByTag(string tag);
-    IReadOnlyCollection<WorkItemDTO> ReadByUser(int userId);
-    IReadOnlyCollection<WorkItemDTO> ReadByState(State state);
-    Response Update(WorkItemUpdateDTO workItem);
-    Response Delete(int workItemId);
 
+    public WorkItemDetailsDTO Find(int workItemId)
+    {
+        throw new NotImplementedException();
+    }
+
+    public IReadOnlyCollection<WorkItemDTO> Read()
+    {
+        var workItems = from w in _context.WorkItems
+                select new WorkItemDTO(w.Id, w.Title)
+                {
+                    Id = b.Id,
+                    Title = b.Title,
+                    AuthorName = b.Author.Name
+                };
+
+    return books;
+    }
+
+    public IReadOnlyCollection<WorkItemDTO> ReadByState(Core.State state)
+    {
+        throw new NotImplementedException();
+    }
+
+    public IReadOnlyCollection<WorkItemDTO> ReadByTag(string tag)
+    {
+        throw new NotImplementedException();
+    }
+
+    public IReadOnlyCollection<WorkItemDTO> ReadByUser(int userId)
+    {
+        throw new NotImplementedException();
+    }
+
+    public IReadOnlyCollection<WorkItemDTO> ReadRemoved()
+    {
+        throw new NotImplementedException();
+    }
+
+    public Response Update(WorkItemUpdateDTO workItem)
+    {
+        throw new NotImplementedException();
+    }
 }
