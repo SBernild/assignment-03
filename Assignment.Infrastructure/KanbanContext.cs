@@ -30,6 +30,8 @@ namespace Assignment.Infrastructure;
             
             
             modelBuilder.Entity<WorkItem>(entity => {
+                
+                
                 // State is stored as string
                 entity.Property(e => e.State)
                  .HasConversion(

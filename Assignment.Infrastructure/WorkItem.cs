@@ -3,19 +3,19 @@ using System.ComponentModel.DataAnnotations;
 using Assignment.Core;
 
 public class WorkItem
-{
+{   
     public int Id { get; set; }
+    
     [MaxLength(100), Required]
-    [Key]
     public string Title { get; set; }
-    public User AssignedTo { get; set; }
+    public User? AssignedTo { get; set; }
 
     [MaxLength(int.MaxValue)]
     public string? Description { get; set; }
 
     [Required]
     public Core.State State { get; set; }
-    public virtual IReadOnlyCollection<string> Tags { get; }
+    public virtual IReadOnlyCollection<string>? Tags { get; }
 
 
     /*

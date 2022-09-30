@@ -13,12 +13,14 @@ public class WorkItemRepository : IWorkItemRepository
     public (Response Response, int WorkItemId) Create(WorkItemCreateDTO workItem)
     {
         var entity = new WorkItem{
-            Title = workItem.Title
+            Title = workItem.Title,
+            Description = workItem.Description,
+            
         };
 
         var exists = from w in _context.WorkItems
-        where w.Title == workItem.Title
-        select new WorkItemDetailsDTO(w.Id, w.Title, w.Description, DateTime.Now, w.AssignedTo.Name, w.Tags, State.New, DateTime.Now);
+        where w.Title == workItem.Title && w.Description == workItem.Description
+        select new WorkItemDetailsDTO(w.Id, w.Title, w.Description, DateTime.UtcNow, w.AssignedTo.Name, w.Tags, State.New, DateTime.UtcNow);
 
         if (exists.Any()){
             return (Response.Conflict, -1);
@@ -57,12 +59,11 @@ public class WorkItemRepository : IWorkItemRepository
     public WorkItemDetailsDTO? Find(int workItemId)
     {
         var workItem = _context.WorkItems.Find(workItemId);
-
+    
         if(workItem == null){
             return null;
         }
-
-        return new WorkItemDetailsDTO(workItem.Id, workItem.Title, workItem.Description, DateTime.UtcNow, workItem.AssignedTo.Name, workItem.Tags, workItem.State, DateTime.UtcNow);
+        return new WorkItemDetailsDTO(workItem.Id,workItem.Title, workItem.Description, DateTime.UtcNow, workItem.AssignedTo?.Name, workItem.Tags, workItem.State, DateTime.UtcNow);
     }
 
     public IReadOnlyCollection<WorkItemDTO> Read()
@@ -118,6 +119,7 @@ public class WorkItemRepository : IWorkItemRepository
         }
 
         entity.Title = workItem.Title;
+        entity.State = workItem.State;
 
         _context.SaveChanges();
 
